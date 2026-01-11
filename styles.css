@@ -448,11 +448,82 @@ textarea:focus {
 
     .navbar {
         padding: 20px;
+        justify-content: space-between;
+    }
+
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 21px;
+        cursor: pointer;
+        z-index: 1001;
+    }
+
+    .menu-toggle span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background-color: var(--color-gold);
+        border-radius: 3px;
+        transition: var(--transition);
+    }
+
+    /* Hamburger Animation */
+    .menu-toggle.active span:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active span:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
     }
 
     .nav-links {
-        display: none;
-        /* Mobile menu logic would go here, simplistic for now */
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        right: -100%;
+        /* Hidden by default */
+        width: 70%;
+        height: 100vh;
+        background-color: #000;
+        /* High contrast dark background */
+        padding-top: 100px;
+        transition: var(--transition);
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.5);
+        gap: 15px;
+        /* Spacing between links */
+        z-index: 1000;
+    }
+
+    .nav-links.active {
+        right: 0;
+        /* Slide in */
+    }
+
+    .nav-links li {
+        text-align: center;
+        width: 100%;
+    }
+
+    .nav-links a {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.2rem;
+        color: #fff;
+        /* High contrast text */
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-links a:hover {
+        background-color: rgba(212, 175, 55, 0.1);
+        color: var(--color-gold);
     }
 
     .properties-grid {
