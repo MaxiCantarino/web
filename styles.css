@@ -4,8 +4,8 @@
 :root {
     --color-bg: #0a0a0a;
     --color-surface: #141414;
-    --color-gold: #D4AF37;
-    --color-gold-hover: #b5952f;
+    --color-gold: #BF9B30;
+    --color-gold-hover: #D4AF37;
     --color-text: #f5f5f5;
     --color-text-muted: #a3a3a3;
     --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.15);
@@ -140,7 +140,7 @@ section {
     background: linear-gradient(rgba(10, 10, 10, 0.7), var(--color-bg)), url('https://images.unsplash.com/photo-1600596542815-2a4d9f6facb8?q=80&w=2000&auto=format&fit=crop');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
+    /* background-attachment: fixed; REMOVED FOR PARALLAX JS */
     padding-top: 100px;
     /* Offset for fixed nav */
 }
@@ -154,7 +154,26 @@ section {
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
 
+/* Typewriter Cursor */
+.typewriter-text {
+    border-right: 3px solid var(--color-gold);
+    animation: blink-caret 0.75s step-end infinite;
+    padding-right: 5px;
+    /* Slight breathing room for cursor */
+}
+
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: var(--color-gold)
+    }
 }
 
 .hero p {
@@ -232,17 +251,26 @@ textarea:focus {
 }
 
 .property-card {
-    background: var(--color-surface);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    /* Glassmorphism Effect */
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
     transition: var(--transition);
     overflow: hidden;
     position: relative;
+    border-radius: 12px;
+    /* Slight rounded corners fit glass better */
 }
 
 .property-card:hover {
     transform: translateY(-10px);
     border-color: var(--color-gold);
-    box-shadow: var(--shadow-gold);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+    /* Golden glow on hover */
+    background: rgba(30, 30, 30, 0.7);
 }
 
 .card-image-wrapper {
@@ -529,4 +557,16 @@ textarea:focus {
     .properties-grid {
         grid-template-columns: 1fr;
     }
+}
+
+/* Scroll Reveal Animation */
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
 }

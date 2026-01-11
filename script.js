@@ -131,18 +131,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Observadores solo necesarios en inicio
-        const fadeElements = document.querySelectorAll('.property-card, .section-title, .form-group');
+        // SCROLL REVEAL ANIMATION
+        const revealElements = document.querySelectorAll('section, header, footer, .property-card, .menu-toggle');
+
+        // Add initial class
+        revealElements.forEach(el => el.classList.add('reveal'));
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('reveal-visible');
+                    // Stop observing once revealed? 
+                    // Usually better for performance, but if they want it to re-trigger, keep it.
+                    // Let's stop observing for a cleaner "reveal once" effect.
+                    observer.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.1 }); // 10% visible to trigger
 
-        fadeElements.forEach(el => observer.observe(el));
+        revealElements.forEach(el => observer.observe(el));
     }
 
     // --- MENÚ MÓVIL ---
@@ -160,6 +167,85 @@ document.addEventListener('DOMContentLoaded', () => {
             link.addEventListener('click', () => {
                 menuToggle.classList.remove('active');
                 navLinks.classList.remove('active');
+            });
+        });
+    }
+
+    // --- TYPEWRITER EFFECT (HERO) ---
+    const heroTitle = document.querySelector('.hero h1');
+    if (heroTitle) {
+        const line1 = "Inversiones Inmobiliarias";
+        const line2 = "de Alto Nivel";
+
+        // Clear logic for typing
+        heroTitle.innerHTML = '';
+
+        // Create wrappers
+        const span1 = document.createElement('span');
+        span1.classList.add('typewriter-text');
+        heroTitle.appendChild(span1);
+
+        // Br tag
+        const br = document.createElement('br');
+
+        // Logic to type string into element
+        async function typeText(element, text, speed = 50) {
+            for (let i = 0; i < text.length; i++) {
+                element.textContent += text.charAt(i);
+                await new Promise(r => setTimeout(r, speed));
+            }
+        }
+
+        async function startTyping() {
+            // Type first line
+            await typeText(span1, line1, 50);
+
+            // Remove cursor from line 1
+            span1.classList.remove('typewriter-text');
+
+            // Add break and line 2
+            heroTitle.appendChild(br);
+            const span2 = document.createElement('span');
+            span2.classList.add('typewriter-text');
+            heroTitle.appendChild(span2);
+
+            // Type second line
+            await typeText(span2, line2, 50);
+
+            // Keep cursor blinking on end for a bit or leave it?
+            // "Simulando máquina de escribir" usually keeps it or fades it.
+            // Let's leave it for a professional feel, or maybe remove it after a few seconds.
+            // User asked for "suave", so maybe remove it gently?
+            // Let's leave it for now as it's active.
+        }
+
+        // Start a bit after load
+        setTimeout(startTyping, 500);
+    }
+
+    // --- PARALLAX EFFECT ---
+    const parallaxElements = document.querySelectorAll('.hero, .property-hero');
+
+    if (parallaxElements.length > 0) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.scrollY;
+
+            parallaxElements.forEach(el => {
+                // Check if element is in viewport effectively? 
+                // Simple version: background position moves at 0.5 speed to create depth
+                // Default position center usually means 50%. We need to modify the Y axis.
+                // We'll use 50% for X and a calculation for Y.
+                // Initial Y is center, but we want it to move.
+
+                const speed = 0.5;
+                const yPos = -(scrolled * speed);
+
+                // Keep the gradient? 
+                // The gradient is part of the background-image property in CSS.
+                // Changing backgroundPosition works on top of that.
+                // Standard center is 50% 50%.
+
+                el.style.backgroundPosition = `center ${yPos}px`;
             });
         });
     }
