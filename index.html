@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emma Asesor Inmobiliario | Propiedades de Lujo</title>
+    <title>Venta de Propiedades en Villa Carlos Paz | Emma Propiedades</title>
     <meta name="description" content="Inversiones Inmobiliarias de Alto Nivel. Asesoría personalizada por Emmanuel.">
+    <meta name="keywords" content="Inmobiliaria Carlos Paz, Venta de Casas, Lotes, Inversiones, Córdoba">
+    <link rel="icon" href="images/favicon.png" type="image/png">
     <!-- Estilos -->
     <link rel="stylesheet" href="styles.css">
     <!-- Iconos -->
@@ -17,7 +19,7 @@
     <!-- Barra de navegación -->
     <nav class="navbar">
         <a href="#" class="logo">
-            <img src="images/logo-new.jpg" alt="Emma Asesor Inmobiliario" class="logo-img">
+            <img src="images/logo-transparent.png" alt="Emma Asesor Inmobiliario" class="logo-img">
         </a>
 
         <div class="menu-toggle">
@@ -36,45 +38,68 @@
 
     <!-- Hero (Encabezado) -->
     <header class="hero">
-        <h1>Inversiones Inmobiliarias<br>de Alto Nivel</h1>
+        <h1>Inversiones Inmobiliarias en<br>Villa Carlos Paz</h1>
         <p>Asesoría personalizada por Emmanuel. Tu próximo hogar o inversión comienza aquí.</p>
         <a href="#propiedades" class="btn btn-primary">Ver Oportunidades</a>
     </header>
 
+    <!-- Sección de Zonas Destacadas -->
+    <section class="zones-section">
+        <div class="zones-container">
+            <h2 class="zone-title">Zonas de Influencia</h2>
+            <p class="zone-text">Carlos Paz, San Antonio de Arredondo, Cabalango y alrededores.</p>
+        </div>
+    </section>
+    <!-- Sección de Captura -->
     <!-- Sección de Captura -->
     <section id="vender" class="capture-section">
-        <form class="appraisal-form" id="appraisalForm" action="https://formspree.io/f/mzdzjqon" method="POST">
-            <div class="form-group">
-                <input type="text" name="name" class="form-input" placeholder="Nombre completo" required maxlength="50"
-                    pattern="[A-Za-zÀ-ÿ\s]+" title="Solo letras y espacios">
+        <div class="capture-overlay"></div>
+        <div class="capture-content">
+            <div class="capture-text-col">
+                <h2 class="capture-title">¿Querés que vendamos tu propiedad?</h2>
+                <p class="capture-description">
+                    Si tenés una propiedad y querés venderla con un equipo especializado en Marketing, contactanos.
+                    Sumate a
+                    nuestra red de comercialización exclusiva junto a Castro&Co.
+                </p>
+                <p class="capture-description">Envianos fotos o información preliminar.</p>
             </div>
-            <div class="form-group">
-                <input type="tel" name="phone" class="form-input" placeholder="WhatsApp de contacto" required
-                    maxlength="20" pattern="[\+]?[0-9\s\-]+" title="Solo números, espacios, guiones o símbolo +">
+            <div class="capture-form-col">
+                <form class="appraisal-form" id="appraisalForm" action="https://formspree.io/f/mzdzjqon" method="POST">
+                    <div class="form-group">
+                        <input type="text" name="name" class="form-input" placeholder="Nombre completo" required
+                            maxlength="50" oninput="this.value = this.value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')"
+                            title="Solo letras y espacios">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" inputmode="numeric" name="phone" class="form-input"
+                            placeholder="WhatsApp de contacto" required maxlength="20"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" title="Solo números">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="address" class="form-input" placeholder="Dirección de la propiedad"
+                            required maxlength="100" pattern="[A-Za-z0-9À-ÿ\s,.\-]+" title="Caracteres no permitidos">
+                    </div>
+                    <div class="form-group">
+                        <select name="type" class="form-select" required>
+                            <option value="" disabled selected>Tipo de Operación</option>
+                            <option value="venta">Quiero Vender</option>
+                            <option value="tasacion">Solo Tasación</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" class="form-input" placeholder="Déjanos una pequeña nota (opcional)"
+                            rows="3" maxlength="300" style="resize: none;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-submit">Solicitar Tasación</button>
+                </form>
+                <div style="text-align: center; margin-top: 20px;">
+                    <a href="#" class="btn btn-sm"
+                        style="display: inline-flex; align-items: center; gap: 10px; color: white; border-color: white;">
+                        <i class="fas fa-arrow-up"></i> Volver al Inicio
+                    </a>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" name="address" class="form-input" placeholder="Dirección de la propiedad" required
-                    maxlength="100" pattern="[A-Za-z0-9À-ÿ\s,.\-]+" title="Caracteres no permitidos">
-            </div>
-            <div class="form-group">
-                <select name="type" class="form-select" required>
-
-                    <option value="" disabled selected>Tipo de Operación</option>
-                    <option value="venta">Quiero Vender</option>
-                    <option value="tasacion">Solo Tasación</option>
-
-                </select>
-            </div>
-            <div class="form-group">
-                <textarea name="message" class="form-input" placeholder="Déjanos una pequeña nota (opcional)" rows="3"
-                    maxlength="300" style="resize: none;"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary btn-submit">Solicitar Tasación</button>
-        </form>
-        <div style="text-align: center; margin-top: 30px;">
-            <a href="#" class="btn btn-sm" style="display: inline-flex; align-items: center; gap: 10px;">
-                <i class="fas fa-arrow-up"></i> Volver al Inicio
-            </a>
         </div>
     </section>
 

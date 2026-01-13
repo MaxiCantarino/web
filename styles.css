@@ -122,11 +122,17 @@ section {
     text-transform: uppercase;
     letter-spacing: 1px;
     opacity: 0.8;
+    color: inherit;
+    font-weight: 500;
 }
 
 .nav-links a:hover {
     color: var(--color-gold);
     opacity: 1;
+}
+
+.menu-toggle span {
+    background-color: var(--color-gold);
 }
 
 /* Sección Hero */
@@ -183,33 +189,108 @@ section {
     max-width: 600px;
 }
 
-/* Sección de Captura (Formulario) */
-.capture-section {
-    background-color: var(--color-surface);
-    border-top: 1px solid rgba(212, 175, 55, 0.1);
+/* Sección de Zonas Destacadas */
+.zones-section {
+    padding: 60px 20px;
+    background-color: var(--color-bg);
+    text-align: center;
     border-bottom: 1px solid rgba(212, 175, 55, 0.1);
 }
 
-.section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
+.zones-container {
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-.section-subtitle {
-    text-align: center;
+.zone-title {
     color: var(--color-gold);
-    margin-bottom: 50px;
-    letter-spacing: 2px;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
     text-transform: uppercase;
-    font-size: 0.9rem;
+    letter-spacing: 2px;
+}
+
+.zone-text {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    margin-bottom: 15px;
+}
+
+.zone-subtext {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+}
+
+/* Sección de Captura (Redesign) */
+.capture-section {
+    position: relative;
+    padding: 100px 20px;
+    background: url('images/capture-bg.png') no-repeat center center/cover;
+    background-attachment: fixed;
+    border-top: none;
+    border-bottom: none;
+}
+
+.capture-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    /* Overlay to make text readable */
+    z-index: 1;
+}
+
+.capture-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 50px;
+}
+
+.capture-text-col {
+    flex: 1;
+    min-width: 300px;
+    text-align: left;
+}
+
+.capture-title {
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.capture-description {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 20px;
+    max-width: 500px;
+    line-height: 1.7;
+}
+
+.capture-form-col {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
 }
 
 .appraisal-form {
-    max-width: 600px;
-    margin: 0 auto;
     display: grid;
-    gap: 20px;
+    gap: 15px;
 }
 
 .form-group {
@@ -221,26 +302,33 @@ section {
 .form-select,
 textarea {
     padding: 15px;
-    background: var(--color-bg);
-    border: 1px solid #333;
-    color: var(--color-text);
+    background: rgba(10, 10, 10, 0.8);
+    /* Slightly dark background for inputs on glass */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
     font-family: var(--font-main);
     font-size: 1rem;
+    border-radius: 5px;
     transition: var(--transition);
+}
+
+.form-input::placeholder,
+textarea::placeholder {
+    color: #aaa;
 }
 
 .form-input:focus,
 .form-select:focus,
 textarea:focus {
-
     outline: none;
     border-color: var(--color-gold);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
 }
 
 .btn-submit {
-    margin-top: 10px;
-    width: 100%;
+    margin-top: 15px;
+    font-weight: 600;
 }
 
 /* Cuadrícula de Propiedades */
