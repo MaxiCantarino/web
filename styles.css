@@ -2,15 +2,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-    --color-bg: #0a0a0a;
-    --color-surface: #141414;
-    --color-gold: #BF9B30;
-    --color-gold-hover: #D4AF37;
-    --color-text: #f5f5f5;
-    --color-text-muted: #a3a3a3;
-    --shadow-gold: 0 4px 20px rgba(212, 175, 55, 0.15);
+    --color-bg: #050505;
+    --color-surface: #121212;
+    /* Tech Dark Grey */
+    --color-gold: #ffffff;
+    /* White Accent */
+    --color-gold-hover: #ffffff;
+    --color-text: #e0e0e0;
+    --color-text-muted: #888888;
+    --shadow-gold: 0 0 20px rgba(255, 255, 255, 0.3);
+    /* White Glow */
     --font-main: 'Outfit', sans-serif;
-    --transition: all 0.3s ease;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 * {
@@ -43,7 +46,7 @@ section {
     margin: 0 auto;
 }
 
-/* Utilidades */
+/* Utilidades - Tech Style */
 .btn {
     display: inline-block;
     padding: 12px 30px;
@@ -51,27 +54,33 @@ section {
     color: var(--color-gold);
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     cursor: pointer;
     background: transparent;
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
 }
 
 .btn:hover {
     background: var(--color-gold);
-    color: var(--color-bg);
-    box-shadow: var(--shadow-gold);
+    color: #000;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px);
 }
 
 .btn-primary {
-    background: var(--color-gold);
-    color: var(--color-bg);
+    background: transparent;
+    /* Changed from solid white to transparent for tech look */
+    color: var(--color-gold);
     font-weight: 600;
 }
 
 .btn-primary:hover {
-    background: var(--color-gold-hover);
-    transform: translateY(-2px);
+    background: var(--color-gold);
+    color: #000;
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
 }
 
 .btn-sm {
@@ -93,8 +102,8 @@ section {
     width: 100%;
     top: 0;
     z-index: 1000;
-    background: rgba(10, 10, 10, 0.95);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    background: rgba(5, 5, 5, 0.9);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
 }
 
@@ -129,6 +138,7 @@ section {
 .nav-links a:hover {
     color: var(--color-gold);
     opacity: 1;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
 
 .menu-toggle span {
@@ -194,7 +204,7 @@ section {
     padding: 60px 20px;
     background-color: var(--color-bg);
     text-align: center;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .zones-container {
@@ -323,7 +333,7 @@ textarea:focus {
     outline: none;
     border-color: var(--color-gold);
     background: rgba(0, 0, 0, 0.9);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .btn-submit {
@@ -339,80 +349,115 @@ textarea:focus {
 }
 
 .property-card {
-    /* Glassmorphism Effect */
-    background: rgba(20, 20, 20, 0.6);
+    /* Glassmorphism + Tech Texture */
+    background-color: rgba(30, 34, 38, 0.6);
+    /* Slate Grey tint */
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    /* Geometric grid */
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
 
-    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* Fine grey/white border */
+    box-shadow: var(--shadow-tech);
+
+    transition: all 0.4s ease;
     overflow: hidden;
     position: relative;
-    border-radius: 12px;
-    /* Slight rounded corners fit glass better */
+    border-radius: 2px;
+    /* Minimalist, almost sharp */
 }
 
 .property-card:hover {
-    transform: translateY(-10px);
-    border-color: var(--color-gold);
-    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
-    /* Golden glow on hover */
-    background: rgba(30, 30, 30, 0.7);
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 20px rgba(255, 255, 255, 0.1);
+    /* Cinematic light bleed */
+    background-color: rgba(40, 44, 48, 0.8);
 }
 
 .card-image-wrapper {
     position: relative;
-    height: 250px;
+    height: 280px;
+    /* Slightly taller for cinematic feel */
     overflow: hidden;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.7s ease;
+    /* Slower, more cinematic */
+    filter: grayscale(20%) contrast(110%);
+    /* High-end photography look */
 }
 
 .property-card:hover .card-image {
-    transform: scale(1.1);
+    transform: scale(1.05);
+    filter: grayscale(0%) contrast(115%);
 }
 
-.video-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(10, 10, 10, 0.7);
+/* Elegant minimalist typography */
+.card-price {
+    font-size: 1.6rem;
+    font-weight: 700;
     color: var(--color-gold);
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(5px);
-}
-
-.card-content {
-    padding: 25px;
+    letter-spacing: -0.5px;
 }
 
 .card-title {
     color: var(--color-gold);
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
 }
 
-.card-price {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 20px;
+.card-location {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+/* New Features Row */
+.card-features {
+    display: flex;
+    gap: 15px;
+    padding: 15px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 5px;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.feature-item i {
+    color: var(--color-gold);
+    font-size: 1rem;
 }
 
 .card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    margin-top: auto;
+    text-align: center;
+}
+
+.card-footer .btn {
+    width: 100%;
+    display: block;
+    text-align: center;
 }
 
 /* Sección Sobre Mí */
@@ -442,7 +487,7 @@ textarea:focus {
     height: auto;
     border-radius: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(212, 175, 55, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .about-badge {
@@ -457,7 +502,7 @@ textarea:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
     border: 2px solid var(--color-gold);
     overflow: hidden;
 }
@@ -638,7 +683,7 @@ textarea:focus {
     }
 
     .nav-links a:hover {
-        background-color: rgba(212, 175, 55, 0.1);
+        background-color: rgba(255, 255, 255, 0.1);
         color: var(--color-gold);
     }
 
