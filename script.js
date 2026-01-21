@@ -4,11 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- DATOS DE PROPIEDADES ---
     // --- DATOS DE PROPIEDADES ---
+    // --- DATOS DE PROPIEDADES ---
     const properties = {
         '1': {
             title: "Casa de Lujo en Causana",
             location: "Causana, Malagueño",
-            image: "https://images.unsplash.com/photo-1613545325278-f24b0cae1224?q=80&w=800&auto=format&fit=crop",
+            images: [
+                "https://images.unsplash.com/photo-1613545325278-f24b0cae1224?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1613545325268-b2714cb295ad?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
+            ],
             desc: "Impresionante residencia de diseño moderno en uno de los barrios cerrados más exclusivos. Cuenta con amplios espacios luminosos, jardín parquizado y terminaciones de primera categoría.",
             price: "USD 330.000",
             beds: "4 Dorm",
@@ -19,7 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '2': {
             title: "Residencia Costa Azul",
             location: "Costa Azul, Villa Carlos Paz",
-            image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=800&auto=format&fit=crop",
+            images: [
+                "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"
+            ],
             desc: "Disfruta de las mejores vistas al lago desde esta propiedad única. Arquitectura pensada para maximizar el paisaje, con terrazas panorámicas y piscina infinita.",
             price: "USD 225.000",
             beds: "3 Dorm",
@@ -30,7 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '3': {
             title: "Oportunidad Villa Lago Azul",
             location: "Villa Santa Cruz del Lago",
-            image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=800&auto=format&fit=crop",
+            images: [
+                "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop"
+            ],
             desc: "Equilibrio perfecto entre naturaleza y confort. Una casa ideal para descanso o vivienda permanente, rodeada de un entorno tranquilo y seguro.",
             price: "USD 120.000",
             beds: "3 Dorm",
@@ -41,7 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '4': {
             title: "Casa Minimalista La Arbolada",
             location: "La Arbolada, Malagueño",
-            image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop",
+            images: [
+                "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop"
+            ],
             desc: "Estilo minimalista y funcional. Seguridad 24hs, amenities de lujo y una ubicación estratégica cerca de la ciudad pero con la paz de las sierras.",
             price: "USD 350.000",
             beds: "3 Dorm",
@@ -52,7 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '5': {
             title: "Joya Histórica Villa Edén",
             location: "Villa Edén, La Falda",
-            image: "https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=800&auto=format&fit=crop",
+            images: [
+                "https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1200&auto=format&fit=crop"
+            ],
             desc: "Una propiedad con carácter e historia en la zona más exclusiva de La Falda. Detalles arquitectónicos únicos restaurados para la vida moderna.",
             price: "USD 220.000",
             beds: "4 Dorm",
@@ -63,7 +80,10 @@ document.addEventListener('DOMContentLoaded', () => {
         '6': {
             title: "Inversión Comercial Hotelería",
             location: "Valle de Punilla",
-            image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=800&auto=format&fit=crop",
+            images: [
+                "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
+                "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1200&auto=format&fit=crop"
+            ],
             desc: "Excelente oportunidad de inversión en el sector turístico. Hotel funcionando con cartera de clientes y potencial de expansión.",
             price: "Consultar",
             beds: "10 Dorm",
@@ -81,7 +101,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (data) {
             document.title = `${data.title} | Emma Asesor Inmobiliario`;
-            document.getElementById('propHero').style.backgroundImage = "url('" + data.image + "')";
+            // Carousel Init
+            initCarousel(data.images);
+
             document.getElementById('propTitle').innerText = data.title;
             document.getElementById('propLocation').innerText = data.location;
             document.getElementById('propDesc').innerText = data.desc;
@@ -100,8 +122,76 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Redirect home if invalid ID
             console.warn('Property ID not found, redirecting...');
-            // Optional: window.location.href = 'index.html';
         }
+    }
+
+    // --- CAROUSEL LOGIC ---
+    function initCarousel(images) {
+        const heroContainer = document.getElementById('propHero');
+        if (!heroContainer || !images || images.length === 0) return;
+
+        // Clear existing
+        heroContainer.innerHTML = '';
+        heroContainer.style.backgroundImage = 'none';
+
+        // Create Slides
+        images.forEach((imgUrl, index) => {
+            const slide = document.createElement('div');
+            slide.classList.add('carousel-slide');
+            if (index === 0) slide.classList.add('active');
+            slide.style.backgroundImage = `url('${imgUrl}')`;
+            heroContainer.appendChild(slide);
+        });
+
+        // If only one image, don't add controls
+        if (images.length <= 1) return;
+
+        // Create Controls
+        const prevBtn = document.createElement('button');
+        prevBtn.classList.add('carousel-btn', 'prev-btn');
+        prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+
+        const nextBtn = document.createElement('button');
+        nextBtn.classList.add('carousel-btn', 'next-btn');
+        nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+
+        // Dots Container
+        const dotsContainer = document.createElement('div');
+        dotsContainer.classList.add('carousel-dots');
+        images.forEach((_, index) => {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dot.addEventListener('click', () => showSlide(index));
+            dotsContainer.appendChild(dot);
+        });
+
+        heroContainer.appendChild(prevBtn);
+        heroContainer.appendChild(nextBtn);
+        heroContainer.appendChild(dotsContainer);
+
+        let currentSlide = 0;
+        const slides = heroContainer.querySelectorAll('.carousel-slide');
+        const dots = heroContainer.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            // Wrap around
+            if (index >= slides.length) index = 0;
+            if (index < 0) index = slides.length - 1;
+
+            slides.forEach(s => s.classList.remove('active'));
+            dots.forEach(d => d.classList.remove('active'));
+
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentSlide = index;
+        }
+
+        prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
+        nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+
+        // Auto advance (optional)
+        // setInterval(() => showSlide(currentSlide + 1), 5000); 
     }
 
 
