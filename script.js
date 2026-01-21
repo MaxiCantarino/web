@@ -2,128 +2,48 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- DATOS DE PROPIEDADES ---
-    // --- DATOS DE PROPIEDADES ---
-    // --- DATOS DE PROPIEDADES ---
-    const properties = {
-        '1': {
-            title: "Casa de Lujo en Causana",
-            location: "Causana, Malagueño",
-            images: [
-                "https://images.unsplash.com/photo-1613545325278-f24b0cae1224?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1613545325268-b2714cb295ad?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"
-            ],
-            desc: "Impresionante residencia de diseño moderno en uno de los barrios cerrados más exclusivos. Cuenta con amplios espacios luminosos, jardín parquizado y terminaciones de primera categoría.",
-            price: "USD 330.000",
-            beds: "4 Dorm",
-            baths: "3 Baños",
-            area: "450m²",
-            ref: "CAUSANA-764"
-        },
-        '2': {
-            title: "Residencia Costa Azul",
-            location: "Costa Azul, Villa Carlos Paz",
-            images: [
-                "https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"
-            ],
-            desc: "Disfruta de las mejores vistas al lago desde esta propiedad única. Arquitectura pensada para maximizar el paisaje, con terrazas panorámicas y piscina infinita.",
-            price: "USD 225.000",
-            beds: "3 Dorm",
-            baths: "3 Baños",
-            area: "320m²",
-            ref: "COSTAZUL-715"
-        },
-        '3': {
-            title: "Oportunidad Villa Lago Azul",
-            location: "Villa Santa Cruz del Lago",
-            images: [
-                "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1200&auto=format&fit=crop"
-            ],
-            desc: "Equilibrio perfecto entre naturaleza y confort. Una casa ideal para descanso o vivienda permanente, rodeada de un entorno tranquilo y seguro.",
-            price: "USD 120.000",
-            beds: "3 Dorm",
-            baths: "2 Baños",
-            area: "280m²",
-            ref: "LAGOAZUL-667"
-        },
-        '4': {
-            title: "Casa Minimalista La Arbolada",
-            location: "La Arbolada, Malagueño",
-            images: [
-                "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200&auto=format&fit=crop"
-            ],
-            desc: "Estilo minimalista y funcional. Seguridad 24hs, amenities de lujo y una ubicación estratégica cerca de la ciudad pero con la paz de las sierras.",
-            price: "USD 350.000",
-            beds: "3 Dorm",
-            baths: "3 Baños",
-            area: "320m²",
-            ref: "ARBOLADA-726"
-        },
-        '5': {
-            title: "Joya Histórica Villa Edén",
-            location: "Villa Edén, La Falda",
-            images: [
-                "https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1200&auto=format&fit=crop"
-            ],
-            desc: "Una propiedad con carácter e historia en la zona más exclusiva de La Falda. Detalles arquitectónicos únicos restaurados para la vida moderna.",
-            price: "USD 220.000",
-            beds: "4 Dorm",
-            baths: "2 Baños",
-            area: "250m²",
-            ref: "EDEN-675"
-        },
-        '6': {
-            title: "Inversión Comercial Hotelería",
-            location: "Valle de Punilla",
-            images: [
-                "https://images.unsplash.com/photo-1566073771259-6a8506099945?q=80&w=1200&auto=format&fit=crop",
-                "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=1200&auto=format&fit=crop"
-            ],
-            desc: "Excelente oportunidad de inversión en el sector turístico. Hotel funcionando con cartera de clientes y potencial de expansión.",
-            price: "Consultar",
-            beds: "10 Dorm",
-            baths: "8 Baños",
-            area: "1200m²",
-            ref: "HOTEL-INV"
-        }
-    };
+    // --- DATOS DE PROPIEDADES (Desde JSON) ---
+    async function loadPropertyData() {
+        if (window.location.pathname.includes('property.html')) {
+            try {
+                const response = await fetch('data.json');
+                const properties = await response.json();
 
-    // --- COMPROBAR SI ESTAMOS EN LA PÁGINA DE PROPIEDAD ---
-    if (window.location.pathname.includes('property.html')) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const propId = urlParams.get('id');
-        const data = properties[propId];
+                const urlParams = new URLSearchParams(window.location.search);
+                const propId = urlParams.get('id');
+                const data = properties[propId];
 
-        if (data) {
-            document.title = `${data.title} | Emma Asesor Inmobiliario`;
-            // Carousel Init
-            initCarousel(data.images);
+                if (data) {
+                    document.title = `${data.title} | Emma Asesor Inmobiliario`;
+                    // Carousel Init
+                    initCarousel(data.images);
 
-            document.getElementById('propTitle').innerText = data.title;
-            document.getElementById('propLocation').innerText = data.location;
-            document.getElementById('propDesc').innerText = data.desc;
-            document.getElementById('propRefInput').value = data.ref;
+                    document.getElementById('propTitle').innerText = data.title;
+                    document.getElementById('propLocation').innerText = data.location;
+                    document.getElementById('propDesc').innerText = data.desc;
+                    document.getElementById('propRefInput').value = data.ref;
 
-            // New dynamic fields
-            if (document.getElementById('propPrice')) document.getElementById('propPrice').innerText = data.price;
-            if (document.getElementById('propBeds')) document.getElementById('propBeds').innerText = data.beds;
-            if (document.getElementById('propBaths')) document.getElementById('propBaths').innerText = data.baths;
-            if (document.getElementById('propArea')) document.getElementById('propArea').innerText = data.area;
+                    // New dynamic fields
+                    if (document.getElementById('propPrice')) document.getElementById('propPrice').innerText = data.price;
+                    if (document.getElementById('propBeds')) document.getElementById('propBeds').innerText = data.beds;
+                    if (document.getElementById('propBaths')) document.getElementById('propBaths').innerText = data.baths;
+                    if (document.getElementById('propArea')) document.getElementById('propArea').innerText = data.area;
 
-            // Update WhatsApp Link knowing current property context
-            const waText = `Hola Emma, vi la propiedad "${data.title}" en tu web y quisiera más info.`;
-            const waLink = document.getElementById('waLink');
-            if (waLink) waLink.href = `https://wa.me/5493512607315?text=${encodeURIComponent(waText)}`;
-        } else {
-            // Redirect home if invalid ID
-            console.warn('Property ID not found, redirecting...');
+                    // Update WhatsApp Link knowing current property context
+                    const waText = `Hola Emma, vi la propiedad "${data.title}" en tu web y quisiera más info.`;
+                    const waLink = document.getElementById('waLink');
+                    if (waLink) waLink.href = `https://wa.me/5493512607315?text=${encodeURIComponent(waText)}`;
+                } else {
+                    console.warn('Property ID not found.');
+                }
+            } catch (error) {
+                console.error('Error loading property data:', error);
+            }
         }
     }
+
+    // Call the function
+    loadPropertyData();
 
     // --- CAROUSEL LOGIC ---
     function initCarousel(images) {
@@ -189,9 +109,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
         nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
-
-        // Auto advance (optional)
-        // setInterval(() => showSlide(currentSlide + 1), 5000); 
     }
 
 

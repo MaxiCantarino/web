@@ -692,6 +692,23 @@ textarea:focus {
     .properties-grid {
         grid-template-columns: 1fr;
     }
+
+    /* CTA Mobile Fix */
+    .cta-column {
+        min-width: 100% !important;
+        text-align: center;
+    }
+
+    .cta-card {
+        padding: 30px !important;
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .cta-card h2 {
+        font-size: 1.8rem !important;
+    }
 }
 
 /* Scroll Reveal Animation */
