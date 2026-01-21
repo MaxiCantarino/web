@@ -428,6 +428,11 @@ textarea:focus {
     margin-bottom: 15px;
 }
 
+#propDesc {
+    white-space: pre-line;
+    /* Respect newlines/breaks in text */
+}
+
 /* New Features Row */
 .card-features {
     display: flex;
