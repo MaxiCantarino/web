@@ -3,12 +3,17 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     // --- DATOS DE PROPIEDADES (Desde JSON) ---
-    async function loadPropertyData() {
-        if (window.location.pathname.includes('property.html')) {
-            try {
-                const response = await fetch('data.json');
-                const properties = await response.json();
+    // --- DATOS DE PROPIEDADES (Desde data.js) ---
+    function loadPropertyData() {
+        // 'properties' viene de data.js que debe cargarse antes en el HTML
+        if (typeof properties === 'undefined') {
+            console.error('Error: properties de data.js no está definido.');
+            return;
+        }
 
+        try {
+            // 1. CARGA DE DETALLE (Property Page)
+            if (window.location.pathname.includes('property.html')) {
                 const urlParams = new URLSearchParams(window.location.search);
                 const propId = urlParams.get('id');
                 const data = properties[propId];
@@ -23,38 +28,61 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('propDesc').innerText = data.desc;
                     document.getElementById('propRefInput').value = data.ref;
 
-                    // New dynamic fields
                     if (document.getElementById('propPrice')) document.getElementById('propPrice').innerText = data.price;
                     if (document.getElementById('propBeds')) document.getElementById('propBeds').innerText = data.beds;
                     if (document.getElementById('propBaths')) document.getElementById('propBaths').innerText = data.baths;
                     if (document.getElementById('propArea')) document.getElementById('propArea').innerText = data.area;
 
-                    // Update WhatsApp Link knowing current property context
                     const waText = `Hola Emma, vi la propiedad "${data.title}" en tu web y quisiera más info.`;
                     const waLink = document.getElementById('waLink');
                     if (waLink) waLink.href = `https://wa.me/5493512607315?text=${encodeURIComponent(waText)}`;
                 } else {
                     console.warn('Property ID not found.');
                 }
-            } catch (error) {
-                console.error('Error loading property data:', error);
             }
+
+            // 2. CARGA DE TARJETAS (Index Page)
+            if (!window.location.pathname.includes('property.html') || window.location.pathname.includes('index.html')) {
+                // Find all cards with data-id
+                const cards = document.querySelectorAll('.property-card[data-id]');
+                cards.forEach(card => {
+                    const id = card.getAttribute('data-id');
+                    const data = properties[id];
+                    if (data) {
+                        // Update Image (Use first image as cover)
+                        if (data.images && data.images.length > 0) {
+                            const img = card.querySelector('.card-image');
+                            if (img) img.src = data.images[0]; // La primera es la portada
+                        }
+                        // Update Texts
+                        if (card.querySelector('.card-title')) card.querySelector('.card-title').innerText = data.title;
+                        if (card.querySelector('.card-location')) card.querySelector('.card-location').innerText = data.location;
+                        if (card.querySelector('.card-price')) card.querySelector('.card-price').innerText = data.price;
+                    }
+                });
+            }
+
+        } catch (error) {
+            console.error('Error processing property data:', error);
         }
     }
 
     // Call the function
     loadPropertyData();
 
-    // --- CAROUSEL LOGIC ---
+    // --- CAROUSEL LOGIC WITH THUMBNAILS ---
     function initCarousel(images) {
         const heroContainer = document.getElementById('propHero');
+        const thumbContainer = document.getElementById('propThumbnails');
+
         if (!heroContainer || !images || images.length === 0) return;
 
         // Clear existing
         heroContainer.innerHTML = '';
+        if (thumbContainer) thumbContainer.innerHTML = '';
         heroContainer.style.backgroundImage = 'none';
 
-        // Create Slides
+        // Create Slides (Main)
         images.forEach((imgUrl, index) => {
             const slide = document.createElement('div');
             slide.classList.add('carousel-slide');
@@ -63,10 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
             heroContainer.appendChild(slide);
         });
 
-        // If only one image, don't add controls
+        // Create Thumbnails
+        if (thumbContainer) {
+            images.forEach((imgUrl, index) => {
+                const thumb = document.createElement('div');
+                thumb.classList.add('thumbnail');
+                if (index === 0) thumb.classList.add('active');
+                thumb.style.backgroundImage = `url('${imgUrl}')`;
+                thumb.addEventListener('click', () => showSlide(index));
+                thumbContainer.appendChild(thumb);
+            });
+        }
+
+        // If only one image, stop here
         if (images.length <= 1) return;
 
-        // Create Controls
+        // Create Controls (Arrows)
         const prevBtn = document.createElement('button');
         prevBtn.classList.add('carousel-btn', 'prev-btn');
         prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
@@ -75,40 +115,97 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.classList.add('carousel-btn', 'next-btn');
         nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
 
-        // Dots Container
-        const dotsContainer = document.createElement('div');
-        dotsContainer.classList.add('carousel-dots');
-        images.forEach((_, index) => {
-            const dot = document.createElement('div');
-            dot.classList.add('dot');
-            if (index === 0) dot.classList.add('active');
-            dot.addEventListener('click', () => showSlide(index));
-            dotsContainer.appendChild(dot);
-        });
-
         heroContainer.appendChild(prevBtn);
         heroContainer.appendChild(nextBtn);
-        heroContainer.appendChild(dotsContainer);
 
         let currentSlide = 0;
         const slides = heroContainer.querySelectorAll('.carousel-slide');
-        const dots = heroContainer.querySelectorAll('.dot');
 
         function showSlide(index) {
             // Wrap around
             if (index >= slides.length) index = 0;
             if (index < 0) index = slides.length - 1;
 
+            // Main Slides
             slides.forEach(s => s.classList.remove('active'));
-            dots.forEach(d => d.classList.remove('active'));
-
             slides[index].classList.add('active');
-            dots[index].classList.add('active');
+
+            // Thumbnails
+            if (thumbContainer) {
+                const thumbs = thumbContainer.querySelectorAll('.thumbnail');
+                thumbs.forEach(t => t.classList.remove('active'));
+                if (thumbs[index]) {
+                    thumbs[index].classList.add('active');
+                    // Auto scroll thumbnail into view
+                    thumbs[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                }
+            }
+
             currentSlide = index;
         }
 
-        prevBtn.addEventListener('click', () => showSlide(currentSlide - 1));
-        nextBtn.addEventListener('click', () => showSlide(currentSlide + 1));
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent opening lightbox
+            showSlide(currentSlide - 1);
+        });
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent opening lightbox
+            showSlide(currentSlide + 1);
+        });
+
+        // --- LIGHTBOX LOGIC ---
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImage');
+        const lbClose = document.querySelector('.lightbox-close');
+        const lbPrev = document.querySelector('.lightbox-prev');
+        const lbNext = document.querySelector('.lightbox-next');
+
+        if (lightbox && lightboxImg) {
+            // Open Lightbox on Slide Click
+            heroContainer.addEventListener('click', (e) => {
+                if (e.target.closest('.carousel-btn')) return; // Ignore buttons
+                lightbox.classList.add('active');
+                updateLightboxImage();
+            });
+
+            // Close Lightbox
+            lbClose.addEventListener('click', () => lightbox.classList.remove('active'));
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) lightbox.classList.remove('active');
+            });
+
+            // Update Image
+            function updateLightboxImage() {
+                lightboxImg.src = images[currentSlide];
+            }
+
+            // Lightbox Navigation
+            lbPrev.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showSlide(currentSlide - 1);
+                updateLightboxImage();
+            });
+
+            lbNext.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showSlide(currentSlide + 1);
+                updateLightboxImage();
+            });
+
+            // Keyboard Nav
+            document.addEventListener('keydown', (e) => {
+                if (!lightbox.classList.contains('active')) return;
+                if (e.key === 'Escape') lightbox.classList.remove('active');
+                if (e.key === 'ArrowLeft') {
+                    showSlide(currentSlide - 1);
+                    updateLightboxImage();
+                }
+                if (e.key === 'ArrowRight') {
+                    showSlide(currentSlide + 1);
+                    updateLightboxImage();
+                }
+            });
+        }
     }
 
 

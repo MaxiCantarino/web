@@ -45,6 +45,18 @@ fs.readFile(dataPath, 'utf8', (err, data) => {
                 return validExtensions.includes(ext);
             });
 
+            // SORTING: Prioritize images named "portada" or "cover"
+            imageFiles.sort((a, b) => {
+                const nameA = a.toLowerCase();
+                const nameB = b.toLowerCase();
+                const isCoverA = nameA.includes('portada') || nameA.includes('cover');
+                const isCoverB = nameB.includes('portada') || nameB.includes('cover');
+
+                if (isCoverA && !isCoverB) return -1;
+                if (!isCoverA && isCoverB) return 1;
+                return nameA.localeCompare(nameB);
+            });
+
             if (imageFiles.length > 0) {
                 // Construct paths for web usage (relative to index.html)
                 // path: "images/propiedades/ID/filename"
@@ -70,9 +82,21 @@ fs.readFile(dataPath, 'utf8', (err, data) => {
             if (writeErr) {
                 console.error('Error writing data.json:', writeErr);
             } else {
-                console.log('------------------------------------------------');
-                console.log('SUCCESS! data.json updated with local images.');
-                console.log('------------------------------------------------');
+                console.log('data.json updated successfully.');
+
+                // ALSO WRITE data.js for local file usage (bypassing CORS)
+                const jsContent = `const properties = ${JSON.stringify(properties, null, 4)};`;
+                const jsPath = path.join(__dirname, 'data.js');
+
+                fs.writeFile(jsPath, jsContent, 'utf8', (jsErr) => {
+                    if (jsErr) {
+                        console.error('Error writing data.js:', jsErr);
+                    } else {
+                        console.log('------------------------------------------------');
+                        console.log('SUCCESS! data.json AND data.js updated.');
+                        console.log('------------------------------------------------');
+                    }
+                });
             }
         });
     } else {
